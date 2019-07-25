@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
       paddingTop: 96,
       paddingHorizontal: 32,
       backgroundColor: Colors.lighter,
+
     },
     logo: {
       opacity: 0.2,

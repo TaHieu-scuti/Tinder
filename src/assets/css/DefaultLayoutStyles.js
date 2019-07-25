@@ -3,14 +3,10 @@ import { Colors } from 'react-native/Libraries/NewAppScreen/';
 
 export const styles = StyleSheet.create({
     scrollView: {
-      backgroundColor: Colors.lighter,
-    },
-    engine: {
-      position: 'absolute',
-      right: 0,
+      backgroundColor: Colors.black,
     },
     body: {
-      backgroundColor: Colors.white,
+      flex: 1
     },
     sectionContainer: {
       marginTop: 32,

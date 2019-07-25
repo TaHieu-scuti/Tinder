@@ -8,32 +8,27 @@
 
 import React, {Fragment} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  StatusBar,
+  View
 } from 'react-native';
+import { Container, Content } from 'native-base';
 import DefaultHeader from './DefaultHeader';
+import DefaultFooter from './DefaultFooter';
 import LibraryList from '../views/LibraryList';
 import { styles } from '../assets/css/DefaultLayoutStyles';
+import Navigation from '../navigations/';
 
 class DefaultLayoutComponent extends React.Component {
   
   render() {
     return (
       <Fragment>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-            <DefaultHeader />
-            
-            <View style={styles.body}>
-              <LibraryList />
-            </View>
-          </ScrollView>
-        </SafeAreaView>
+        <Container>
+          <DefaultHeader />
+          <Content>
+            <LibraryList />
+          </Content>
+          <DefaultFooter />
+        </Container>
       </Fragment>
     )
   };

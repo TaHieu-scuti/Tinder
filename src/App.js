@@ -8,6 +8,7 @@ const store = createStore(reducers);
 
 class App extends React.Component {
   render() {
+    console.disableYellowBox = true;
     return (
       <Provider store={store}>
         <DefaultLayout />
