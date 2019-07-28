@@ -48,10 +48,13 @@ class LibraryListComponent extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (storeState, ownProps) => {
+  console.log(storeState);
   return {
-    libraries: state.libraries
+    libraries: storeState.libraries
   };
 }
 
-export default connect(mapStateToProps, null)(LibraryListComponent);
+export default connect(
+  mapStateToProps,
+)(LibraryListComponent);

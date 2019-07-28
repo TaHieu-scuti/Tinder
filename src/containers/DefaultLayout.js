@@ -7,25 +7,33 @@
  */
 
 import React, {Fragment} from 'react';
-import {
-  View
-} from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container, Content, View } from 'native-base';
 import DefaultHeader from './DefaultHeader';
 import DefaultFooter from './DefaultFooter';
 import LibraryList from '../views/LibraryList';
-import { styles } from '../assets/css/DefaultLayoutStyles';
-import Navigation from '../navigations/';
+import LoginForm from '../views/Auth/LoginForm';
+import Loadding from '../views/Parts/Loading';
 
 class DefaultLayoutComponent extends React.Component {
-  
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  renderContent() {
+    switch(this.props.loggedIn) {
+      case true: return (<LibraryList />);
+      case false: return <LoginForm />;
+      default: return (<View><Loadding /></View>);
+    }
+  }
+
   render() {
     return (
       <Fragment>
         <Container>
-          <DefaultHeader />
+          <DefaultHeader loggedIn={this.props.loggedIn} />
           <Content>
-            <LibraryList />
+            {this.renderContent()}
           </Content>
           <DefaultFooter />
         </Container>
