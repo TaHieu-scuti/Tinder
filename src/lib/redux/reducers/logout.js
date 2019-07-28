@@ -9,6 +9,8 @@ export default (state, {payload}) => {
     refreshToken: null,
     expiresIn: null,
   };
+  newState.errorDescription = '';
+  
   firebase.auth().signOut();
 
   return newState;

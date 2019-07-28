@@ -1,5 +1,7 @@
 import React from 'react';
-import { Header, Left, Body, Right, Title, Icon, Button, Text } from 'native-base';
+import {connect} from 'react-redux';
+import {logout} from '../lib/redux/actions';
+import { Header, Left, Body, Right, Title, Button, Text } from 'native-base';
 import firebase from 'firebase';
 import { styles } from '../assets/css/HeaderStyles';
 
@@ -7,11 +9,6 @@ class DefaultHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.Logout = this.Logout.bind(this);
-  }
-
-  Logout() {
-    firebase.auth().signOut();
   }
 
   renderBottom() {
@@ -19,7 +16,7 @@ class DefaultHeader extends React.Component {
       return (
         <Button
             transparent
-            onPress={this.Logout}
+            onPress={() => this.props.Logout()}
           >
             <Text>Logout</Text>
           </Button>
@@ -44,4 +41,10 @@ class DefaultHeader extends React.Component {
   }
 };
 
-export default DefaultHeader;
+const mapDispatchToProps = dispatch => {
+  return {
+    Logout: () => dispatch(logout()),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(DefaultHeader);
