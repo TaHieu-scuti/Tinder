@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
-import {raiseError, isRequesting} from '../../lib/redux/actions'; 
+import {raiseError, isRequesting, loginUserSuccess} from '../../lib/redux/actions'; 
 import Card from '../Parts/Card';
 import CardSection from '../Parts/CardSection';
 import { Text, Button, Form, Input, Item, Label } from 'native-base';
 import Loading from '../Parts/Loading';
 import { styles } from '../../assets/css/LoginFormStyle';
+import { Actions } from 'react-native-router-flux';
 
 export class LoginForm extends Component {
   constructor(props) {
@@ -18,28 +19,12 @@ export class LoginForm extends Component {
       loading: false
     };
     this.onSubmitBottom = this.onSubmitBottom.bind(this);
-    this.onLoginSuccess = this.onLoginSuccess.bind(this);
   }
 
   onSubmitBottom(e) {
     e.preventDefault();
     const { email, password } = this.state;
-    this.props.isRequesting(true);
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(this.onLoginSuccess)
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(this.onLoginSuccess)
-          .catch(this.props.raiseError('Authentication Failed.'))
-      })
-  }
-
-  onLoginSuccess(user) {
-    this.props.isRequesting(false);
-    this.setState({
-      email: '',
-      password: '',
-    });
+    this.props.onSubmitBottom(email, password);
   }
 
   renderBottom () {
@@ -65,26 +50,28 @@ export class LoginForm extends Component {
     return (
       <Card>
         {error}
-        <Form>
-          <Item stackedLabel>
-            <Label>Email</Label>
-            <Input
-              autoCorrect={false}
-              value={this.state.email}
-              onChangeText={email => this.setState({email})}
-            />
-          </Item>
+        <CardSection>
+          <Form>
+            <Item stackedLabel>
+              <Label>Email</Label>
+              <Input
+                autoCorrect={false}
+                value={this.state.email}
+                onChangeText={email => this.setState({email})}
+              />
+            </Item>
 
-          <Item stackedLabel last>
-            <Label>PassWord</Label>
-            <Input
-              autoCorrect={false}
-              secureTextEntry={true}
-              value={this.state.password}
-              onChangeText={password => this.setState({password})}
-            />
-          </Item>
-        </Form>
+            <Item stackedLabel last>
+              <Label>PassWord</Label>
+              <Input
+                autoCorrect={false}
+                secureTextEntry={true}
+                value={this.state.password}
+                onChangeText={password => this.setState({password})}
+              />
+            </Item>
+          </Form>
+        </CardSection>
         <CardSection>
           {this.renderBottom()}
         </CardSection>
@@ -103,11 +90,19 @@ const mapStateToProps = (storeState, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    raiseError: (payload) => {
-      dispatch(raiseError(payload));
-      dispatch(isRequesting(false));
+    onSubmitBottom: (email, password) => {
+      dispatch(isRequesting(true))
+      firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(user => {
+        dispatch(loginUserSuccess(user));
+        Actions.main();
+        dispatch(isRequesting(false));
+      })
+      .catch(() => {
+        dispatch(raiseError('Authentication Failed.'));
+        dispatch(isRequesting(false));
+      })
     },
-    isRequesting: (payload) => dispatch(isRequesting(payload)),
   }
 }
 

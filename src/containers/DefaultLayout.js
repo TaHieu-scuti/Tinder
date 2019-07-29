@@ -7,39 +7,41 @@
  */
 
 import React, {Fragment} from 'react';
-import { Container, Content, View } from 'native-base';
-import DefaultHeader from './DefaultHeader';
+import {connect} from 'react-redux';
+import { Container } from 'native-base';
 import DefaultFooter from './DefaultFooter';
-import LibraryList from '../views/LibraryList';
-import LoginForm from '../views/Auth/LoginForm';
-import Loadding from '../views/Parts/Loading';
+import Router from '../Router';
 
 class DefaultLayoutComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  renderContent() {
-    switch(this.props.loggedIn) {
-      case true: return (<LibraryList />);
-      case false: return <LoginForm />;
-      default: return (<View><Loadding /></View>);
+
+  renderFooter() {
+    if (this.props.me !== null) {
+      return (<DefaultFooter />);
     }
+
+    return;
   }
 
   render() {
     return (
       <Fragment>
         <Container>
-          <DefaultHeader loggedIn={this.props.loggedIn} />
-          <Content>
-            {this.renderContent()}
-          </Content>
-          <DefaultFooter />
+            <Router />
+            {this.renderFooter()}
         </Container>
       </Fragment>
     )
   };
 };
 
-export default DefaultLayoutComponent;
+const mapStateToProps = storeState => {
+  return {
+    me: storeState.me
+  }
+}
+
+export default connect(mapStateToProps, {})(DefaultLayoutComponent);

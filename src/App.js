@@ -5,6 +5,7 @@ import reducers from './lib/redux/reducers';
 import firebase from 'firebase';
 import DefaultLayout from './containers/DefaultLayout';
 import Store from './lib/redux/';
+import Router from './Router';
 
 const store = createStore(reducers);
 
@@ -26,13 +27,13 @@ class App extends React.Component {
       messagingSenderId: "305501739654",
       appId: "1:305501739654:web:9ec6a6c31811ba8c"
     });
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user) {
-        this.setState({loggedIn: true});
-      } else {
-        this.setState({loggedIn: false});
-      }
-    });
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if(user) {
+    //     this.setState({loggedIn: true});
+    //   } else {
+    //     this.setState({loggedIn: false});
+    //   }
+    // });
   }
 
   render() {

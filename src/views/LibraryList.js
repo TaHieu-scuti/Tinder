@@ -49,7 +49,6 @@ class LibraryListComponent extends Component {
 }
 
 const mapStateToProps = (storeState, ownProps) => {
-  console.log(storeState);
   return {
     libraries: storeState.libraries
   };

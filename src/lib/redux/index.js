@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import PropTypes from 'prop-types';
+import ReduxThunk from 'redux-thunk';
 import {setHttpClient} from './actions'
 import reducers from './reducers';
 import axios from 'axios';
@@ -14,9 +15,7 @@ class Store extends Component {
     super(props);
     this.state = {};
 
-
-    this.store = createStore(reducers);
-    
+    this.store = createStore(reducers, applyMiddleware(ReduxThunk));
     /**
      * Instance of Axios
      *
@@ -26,7 +25,6 @@ class Store extends Component {
       baseURL: 'http://localhost',
     });
     this.store.dispatch(setHttpClient(http));
-
     this.props = props;
   }
 
