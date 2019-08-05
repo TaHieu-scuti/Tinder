@@ -9,7 +9,8 @@ import Loading from '../Parts/Loading';
 import { styles } from '../../assets/css/LoginFormStyle';
 import { Actions } from 'react-native-router-flux';
 
-export class LoginForm extends Component {
+export class RegisterForm extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +38,7 @@ export class LoginForm extends Component {
         style={styles.button}
         onPress={this.onSubmitBottom}
       >
-        <Text style={styles.text}>Đăng Nhập</Text>
+        <Text style={styles.text}>Đăng ký</Text>
       </Button>
     );
   }
@@ -83,7 +84,6 @@ export class LoginForm extends Component {
 
 const mapStateToProps = (storeState, ownProps) => {
   let newState = Object.assign(Object.assign({}, ownProps), storeState);
-  console.log(newState);
   newState.loading = storeState.isRequesting;
   newState.errorDescription = storeState.errorDescription;
   return newState;
@@ -93,7 +93,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onSubmitBottom: (email, password) => {
       dispatch(isRequesting(true))
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(user => {
         dispatch(loginUserSuccess(user));
         Actions.main();
@@ -107,4 +107,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Scene, Router} from 'react-native-router-flux';
 import LoginForm from './views/Auth/LoginForm';
+import Auth from './views/Auth/Auth';
 import LibraryList from './views/LibraryList';
 
 export class RouterComponent extends Component {
@@ -9,7 +10,7 @@ export class RouterComponent extends Component {
       <Router>
         <Scene key="root" hideNavBar>
           <Scene key="auth">
-            <Scene key="Login" component={LoginForm} title="Login" />
+            <Scene key="Login" component={Auth} title="Welcome to Tinder"/>
           </Scene>
           <Scene key="main">
             <Scene
